@@ -38,12 +38,12 @@ class TableTopGame:
 # It should also have a markers for inactive -> active -> deactivated
 #FIXME
 class Event:
-  def __init__self(self, name, description, Enum: status):
+  def __init__self(self, name, description, status: Enum):
     self.name = name
     self.description = description
     self.status = Status.inactive
     
-  def UpdateStatus():
+  def UpdateStatus(self):
     if self.status == Status.completed:
       return
     elif self.status == Status.inactive:
