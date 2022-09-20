@@ -1,5 +1,7 @@
 # TableTop_Exercise
 # Scenario? 'Detailed Cybersecurity Incident'
+#   Roles?
+#   
 #   Different Stages for the incident
 #   Allow class to discuss options to resolve issue
 #   Random dice generator to calculate possibility that issue was resolved
