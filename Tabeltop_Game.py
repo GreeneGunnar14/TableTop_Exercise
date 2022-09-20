@@ -3,25 +3,57 @@
 from enum import Enum
 from random import randint
 
-# TableTopGame class, this class should have start, restart, and end methods, a list containing all currently active scenarios, a roll_dice method, 
+class Status(Enum):
+  inctive = 0
+  active = 1
+  completed = 2
+  
+
+# TableTopGame class, this class should have start, and end methods, a list containing all currently active scenarios, a roll_dice method, 
 # and a count of the total number of dice rolls
 #FIXME
 class TableTopGame:
   def __init__(self):
-    pass
+    self.is_running = False
+    self.active_events = []
+    self.event_descriptions_file = ""
   
   #FIXME
   def Start():
+    pass
+  
+  def End():
     pass
   
   def RollDie(minimum, maximum):
     result = randint(minimun, maximum)
     return result
   
+  def SetDescriptionLocation():
+    filename = input("Enter location for event descriptions.")
   
+  #TODO Finish filling out TableTopGame class
 
 # Scenario class, this class should have a name and a description of the scenario and its best practice solution.
 # It should also have a markers for inactive -> active -> deactivated
 #FIXME
-class Scenario:
-  pass
+class Event:
+  def __init__self(self, name, description, Enum: status):
+    self.name = name
+    self.description = description
+    self.status = Status.inactive
+    
+  def UpdateStatus():
+    if self.status == Status.completed:
+      return
+    elif self.status == Status.inactive:
+      self.status = Status.active
+    elif self.status == Status.active:
+      self.status = Status.completed
+    else:
+      raise Exception(f"Event status for {self.name} not properly set.")
+      
+  #FIXME
+  def GetDescription(filename):
+    pass
+    
