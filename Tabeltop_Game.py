@@ -26,7 +26,7 @@ class TableTopGame:
     pass
   
   def RollDie(minimum, maximum):
-    result = randint(minimun, maximum)
+    result = randint(minimum, maximum)
     return result
   
   def SetDescriptionLocation():
