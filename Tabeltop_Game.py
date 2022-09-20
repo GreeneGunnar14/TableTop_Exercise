@@ -54,6 +54,6 @@ class Event:
       raise Exception(f"Event status for {self.name} not properly set.")
       
   #FIXME
-  def GetDescription(filename):
+  def GetDescription(filename=""):
     pass
     
