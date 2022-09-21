@@ -15,23 +15,42 @@ class Status(Enum):
 class TableTopGame:
   def __init__(self):
     self.is_running = False
+    self.initial_event_list = []
+    self.initial_event = None
+    self.additional_events = []
     self.active_events = []
     self.event_descriptions_file = ""
   
   #FIXME
-  def Start():
+  def Start(self):
+    if not self.is_running:
+      self.DisplayMenu()
+    else:
+      self.active_events = []
+      for event in self.additional_events:
+        event.status = Status.inactive
+      self.initial_event.status = Status.inactive
+      self.initial_event = None
+      self.DisplayMenu()
+  
+  def End(self):
     pass
   
-  def End():
+  def DisplayMenu(self, menu):
     pass
-  
+
   def RollDie(minimum, maximum):
     result = randint(minimum, maximum)
     return result
   
-  def SetDescriptionLocation():
+  def SetDescriptionLocation(self):
     filename = input("Enter location for event descriptions.")
+    self.event_descriptions_file = filename
   
+  #FIXME
+  def SetEvents(self):
+    pass
+
   #TODO Finish filling out TableTopGame class
 
 # Scenario class, this class should have a name and a description of the scenario and its best practice solution.
