@@ -15,6 +15,8 @@
 
   Name: [Insert name here]
 
+  INITIAL (This is a keyword to define if the event is an initial event or an additional event)
+
   Description: [Put a more detailed description here]
 
   Best practice: [Put the best practice(s)/solution(s) here]
