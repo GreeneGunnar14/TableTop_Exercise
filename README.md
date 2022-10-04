@@ -20,3 +20,6 @@
   Description: [Put a more detailed description here]
 
   Best practice: [Put the best practice(s)/solution(s) here]
+  
+  This page has a list of different attack vectors to plan for:
+  https://zcybersecurity.com/cyber-incident-response-tabletop-exercise/
