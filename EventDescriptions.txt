@@ -1,8 +1,6 @@
-Name: Name1
-
+{
+Name: Test Name
 INITIAL
-
-Description: 
-
-Best Practice: 
-
+Description: This event is a placeholder to be used for testing and can be deleted later.
+Best Practice: There is no current best practice. You may ignore this event.
+}
