@@ -1,5 +1,6 @@
 # This file will hold the game and scenario classes
 
+from email import message
 from enum import Enum
 from random import randint
 from os import system
@@ -9,7 +10,9 @@ class Status(Enum):
   active = 1
   completed = 2
   
-
+def wait():
+  _ = input('Press [ENTER] to continue . . . ')
+  return
 # TableTopGame class, this class should have start, and end methods, a list containing all currently active scenarios, a roll_dice method, 
 # and a count of the total number of dice rolls
 #FIXME
@@ -21,7 +24,6 @@ class __TableTopGame:
     self.additional_event_list = []
     self.active_events = {}
     self.event_descriptions_file = descriptions
-    #TODO add the main menu message
     self.main_menu_message = "Welcome to your tabletop game.\nPlease choose an option below."
   
   #FIXME
@@ -40,16 +42,24 @@ class __TableTopGame:
     exit(0)
   
   #TODO finish displaying the full menu.
-  def DisplayMenu(self, message=None, event=None, start_menu=False):
+  def DisplayMenu(self, events=None, start_menu=False):
     system('clear')
-    if not message:
-      message = self.main_menu_message
+    message = self.main_menu_message
     if start_menu:
       system('clear')
       print(message + '\n\n')
       print('1. Start game with random initial event.\n2. Choose initial event and start game.\n3. Exit\n\n')
     else:
-      raise NotImplementedError()
+      system('clear')
+      for event in events:
+        print(f'{event.name}: {event.description}\n')
+      print('Discuss and determine the best solution to the above situations.\n\
+        If you have already discussed a solution to a problem, determine the best next step when your best practice fails.')
+      wait()
+      print('Best Prcatices: \n')
+      for event in events:
+        print(f'{event.name}: {event.best_practice}\n')
+
 
   #Return a random integer between two given values
   def RollDie(minimum, maximum):
@@ -66,8 +76,17 @@ class __TableTopGame:
     while not user_input in ('1', '2', '3'):
       self.DisplayMenu(start_menu=True)
       user_input = input('Input not recognized. Try again: ')
-    #FIXME This is here to test that Run and Display Menu are working
-    return user_input
+    if user_input == '1':
+      #Set the initial event to be equal to a random event from the initial event list, update the status of the event
+      self.initial_event = self.initial_event_list[randint(0, len(self.initial_event_list) - 1)]
+      self.UpdateEvent(self.initial_event)
+      self.DisplayMenu(events=self.active_events)
+      #TODO finish writing out code for the initial event handling
+    elif user_input == '2':
+      pass
+      #TODO write steps for user selection of an initial event
+    else:
+      self.End()
 
   #Update the status of an event, update self.active_events accordingly
   def UpdateEvent(self, event):
@@ -109,7 +128,7 @@ class __TableTopGame:
 # It should also have a markers for inactive -> active -> deactivated
 #FIXME
 class __Event:
-  def __init__self(self, name, description, best_practice):
+  def __init__(self, name, description, best_practice):
     self.name = name
     self.description = description
     self.status = Status.inactive
@@ -126,6 +145,23 @@ class __Event:
       raise Exception(f"Event status for {self.name} not properly set.")
 
 #TODO
-def PlayGame(event_locaions="EventDescriptions.txt"):
-  game = __TableTopGame(event_locaions)
+def PlayGame(event_locations="EventDescriptions.txt", difficulty=0):
+  #TODO determine different weights for dice rolls based on difficulty
+  if difficulty == 0:
+    pass
+  elif difficulty == 1:
+    pass
+  elif difficulty == 2:
+    pass
+  game = __TableTopGame(event_locations)
+  game.GetDescriptions(event_locations)
+  game.Start()
+  system('clear')
+  user_response = input('Would you like to play again? (y/n): ').lower()
+  while user_response == 'y':
+    game.Start()
+    system('clear')
+    user_response = input('Would you like to play again? (y/n): ').lower()
 
+if __name__ == '__main__':
+  pass
