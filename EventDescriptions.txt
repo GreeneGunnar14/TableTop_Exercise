@@ -1,6 +1,9 @@
-Name: Test Name
+Name: Test Name 1
 INITIAL
 Description: This event is a placeholder to be used for testing and can be deleted later.
 Best Practice: There is no current best practice. You may ignore this event.
 
-
+Name: Test Name 2
+INITIAL
+Description: This event is a second placeholder to be used for testing and can be deleted later.
+Best Practice: There is no current best practice for event 2. You may ignore this event.

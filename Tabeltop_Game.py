@@ -1,12 +1,11 @@
 # This file will hold the game and scenario classes
 
-from email import message
 from enum import Enum
 from random import randint
 from os import system
 
 class Status(Enum):
-  inctive = 0
+  inactive = 0
   active = 1
   completed = 2
   
@@ -16,15 +15,16 @@ def wait():
 # TableTopGame class, this class should have start, and end methods, a list containing all currently active scenarios, a roll_dice method, 
 # and a count of the total number of dice rolls
 #FIXME
-class __TableTopGame:
+class TableTopGame:
   def __init__(self, descriptions = "EventDescriptions.txt"):
     self.is_running = False
     self.initial_event_list = []
     self.initial_event = None
     self.additional_event_list = []
-    self.active_events = {}
+    self.active_events = set()
     self.event_descriptions_file = descriptions
     self.main_menu_message = "Welcome to your tabletop game.\nPlease choose an option below."
+    self.num_dice_rolls = 0
   
   #FIXME
   def Start(self):
@@ -36,6 +36,7 @@ class __TableTopGame:
         event.status = Status.inactive
       self.initial_event.status = Status.inactive
       self.initial_event = None
+      self.num_dice_rolls = 0
       self.Run()
   
   def End(self):
@@ -53,12 +54,13 @@ class __TableTopGame:
       system('clear')
       for event in events:
         print(f'{event.name}: {event.description}\n')
-      print('Discuss and determine the best solution to the above situations.\n\
-        If you have already discussed a solution to a problem, determine the best next step when your best practice fails.')
+      print('Discuss and determine the best solution to the above situations.\nIf you have already discussed a solution to a problem, determine the best next step when your best practice fails.')
       wait()
+      system('clear')
       print('Best Prcatices: \n')
       for event in events:
         print(f'{event.name}: {event.best_practice}\n')
+      wait()
 
 
   #Return a random integer between two given values
@@ -83,7 +85,7 @@ class __TableTopGame:
       self.DisplayMenu(events=self.active_events)
       #TODO finish writing out code for the initial event handling
     elif user_input == '2':
-      pass
+      raise NotImplementedError()
       #TODO write steps for user selection of an initial event
     else:
       self.End()
@@ -102,13 +104,13 @@ class __TableTopGame:
       all_lines = file.readlines()
 
     for line in all_lines:
-      if line[0:3] == "Name":
-        name = line[6:]
-      elif line[0:10] == "Description":
+      if line[0:4] == "Name":
+        name = line[6:].replace('\n', '')
+      elif line[0:11] == "Description":
         description = line[13:]
-      elif line[0:12] == "Best Practice":
-        best_practice = line[15:]
-        event = __Event(name, description, best_practice)
+      elif line[0:13] == "Best Practice":
+        best_practice = line[15:].replace('\n', '')
+        event = Event(name, description, best_practice)
         if use == "initial":
           self.initial_event_list.append(event)
         elif use == "additional":
@@ -116,7 +118,8 @@ class __TableTopGame:
         else:
           raise Exception("Event use (initial/additional) not set properly")
       else:
-        use = line.lower() if line.lower() == "initial" or line.lower() == "additional" else None
+        use = line.lower().replace('\n', '') if line.lower().replace('\n', '') == "initial" \
+          or line.lower().replace('\n', '') == "additional" else None
 
   def SelectInitialEvent(self):
     raise NotImplementedError()
@@ -127,7 +130,7 @@ class __TableTopGame:
 # Scenario class, this class should have a name and a description of the scenario and its best practice solution.
 # It should also have a markers for inactive -> active -> deactivated
 #FIXME
-class __Event:
+class Event:
   def __init__(self, name, description, best_practice):
     self.name = name
     self.description = description
@@ -153,8 +156,8 @@ def PlayGame(event_locations="EventDescriptions.txt", difficulty=0):
     pass
   elif difficulty == 2:
     pass
-  game = __TableTopGame(event_locations)
-  game.GetDescriptions(event_locations)
+  game = TableTopGame(event_locations)
+  game.GetDescriptions()
   game.Start()
   system('clear')
   user_response = input('Would you like to play again? (y/n): ').lower()
@@ -164,4 +167,4 @@ def PlayGame(event_locations="EventDescriptions.txt", difficulty=0):
     user_response = input('Would you like to play again? (y/n): ').lower()
 
 if __name__ == '__main__':
-  pass
+  PlayGame()

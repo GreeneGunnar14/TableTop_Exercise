@@ -1,0 +1,1 @@
+     self.UpdateEvent(self.initial_event)
