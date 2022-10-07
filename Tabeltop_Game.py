@@ -12,11 +12,15 @@ class Status(Enum):
 def wait():
   _ = input('Press [ENTER] to continue . . . ')
   return
-# TableTopGame class, this class should have start, and end methods, a list containing all currently active scenarios, a roll_dice method, 
+
+def clear():
+  system('clear')
+  return
+
+#  TableTopGame class, this class should have start, and end methods, a list containing all currently active scenarios, a roll_dice method, 
 # and a count of the total number of dice rolls
-#FIXME
 class TableTopGame:
-  def __init__(self, descriptions = "EventDescriptions.txt"):
+  def __init__(self, descriptions = "EventDescriptions.txt", difficulty=1):
     self.is_running = False
     self.initial_event_list = []
     self.initial_event = None
@@ -25,6 +29,7 @@ class TableTopGame:
     self.event_descriptions_file = descriptions
     self.main_menu_message = "Welcome to your tabletop game.\nPlease choose an option below."
     self.num_dice_rolls = 0
+    self.difficulty = difficulty
   
   #FIXME
   def Start(self):
@@ -44,28 +49,54 @@ class TableTopGame:
   
   #TODO finish displaying the full menu.
   def DisplayMenu(self, events=None, start_menu=False):
-    system('clear')
+    clear()
     message = self.main_menu_message
     if start_menu:
-      system('clear')
+      clear()
       print(message + '\n\n')
       print('1. Start game with random initial event.\n2. Choose initial event and start game.\n3. Exit\n\n')
     else:
-      system('clear')
+      clear()
       for event in events:
         print(f'{event.name}: {event.description}\n')
       print('Discuss and determine the best solution to the above situations.\nIf you have already discussed a solution to a problem, determine the best next step when your best practice fails.')
       wait()
-      system('clear')
+      clear()
       print('Best Prcatices: \n')
       for event in events:
         print(f'{event.name}: {event.best_practice}\n')
       wait()
+      for event in events:
+        if event == self.initial_event:
+          if self.RollDie() > (25 * self.difficulty):
+            self.CompleteEvent(event)
+            clear()
+            print(f'You have successfully completed this scenarios initial incident ({self.initial_event})')
+            if self.active_events:
+              print('All that remains now is to complete any remaining incidents.')
+            wait()
+            clear()
+          else:
+            clear()
+            print(f'Your most recent solution for the incident {event.name} has failed to resolve the issue.')
+            print('You should begin considering fall-back solutions for this incident.')
+            wait()
+        else:
+          if self.RollDie() > 20 * self.difficulty:
+            self.CompleteEvent(event)
+            clear()
+            print(f'Your solution successfully completed the event {event.name}.\nYou will no longer have to deal with this problem')
+            wait()
+            clear()
+          else:
+            pass #FIXME Detemine how to handle a failure
+        if self.active_events and self.RollDie() > 90:
+          pass #FIXME add a new event
 
 
   #Return a random integer between two given values
-  def RollDie(minimum, maximum):
-    result = randint(minimum, maximum)
+  def RollDie():
+    result = randint(1, 100)
     return result
   
   def SetDescriptionLocation(self):
@@ -121,8 +152,14 @@ class TableTopGame:
         use = line.lower().replace('\n', '') if line.lower().replace('\n', '') == "initial" \
           or line.lower().replace('\n', '') == "additional" else None
 
-  def SelectInitialEvent(self):
+  def UserSelectInitialEvent(self):
     raise NotImplementedError()
+
+  def CompleteEvent(self, event):
+    if not event in self.active_events:
+      raise Exception(f'Event ({event.name}) not found in active events\n{self.active_events}')
+    event.UpdateStatus
+    self.active_events.remove(event)
 
   #TODO Finish filling out TableTopGame class
 
@@ -148,22 +185,16 @@ class Event:
       raise Exception(f"Event status for {self.name} not properly set.")
 
 #TODO
-def PlayGame(event_locations="EventDescriptions.txt", difficulty=0):
+def PlayGame(event_locations="EventDescriptions.txt", difficulty=1):
   #TODO determine different weights for dice rolls based on difficulty
-  if difficulty == 0:
-    pass
-  elif difficulty == 1:
-    pass
-  elif difficulty == 2:
-    pass
-  game = TableTopGame(event_locations)
+  game = TableTopGame(event_locations, difficulty)
   game.GetDescriptions()
   game.Start()
-  system('clear')
+  clear()
   user_response = input('Would you like to play again? (y/n): ').lower()
   while user_response == 'y':
     game.Start()
-    system('clear')
+    clear()
     user_response = input('Would you like to play again? (y/n): ').lower()
 
 if __name__ == '__main__':
