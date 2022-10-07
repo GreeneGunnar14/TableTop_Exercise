@@ -7,3 +7,18 @@ Name: Test Name 2
 INITIAL
 Description: This event is a second placeholder to be used for testing and can be deleted later.
 Best Practice: There is no current best practice for event 2. You may ignore this event.
+
+Name: Additional Event 1
+ADDITIONAL
+Description: This event is a placeholder to be used for testing and can be deleted later.
+Best Practice: There is no current best practice for adev1. You may ignore this event.
+
+Name: Additional Event 2
+ADDITIONAL
+Description: This event is a placeholder to be used for testing and can be deleted later.
+Best Practice: There is no current best practice for adev2. You may ignore this event.
+
+Name: Additional Event 3
+ADDITIONAL
+Description: This event is a placeholder to be used for testing and can be deleted later.
+Best Practice: There is no current best practice for adev3. You may ignore this event.

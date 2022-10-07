@@ -1,4 +1,6 @@
 # This file will hold the game and scenario classes
+#FIXME Game does not add events back into their respective list after a round has been played
+# This means that the successive rounds will eventually crash the game.
 
 from enum import Enum
 from random import randint
@@ -10,6 +12,7 @@ class Status(Enum):
   completed = 2
   
 def wait():
+  print()
   _ = input('Press [ENTER] to continue . . . ')
   return
 
@@ -26,7 +29,7 @@ class TableTopGame:
     self.initial_event = None
     self.additional_event_list = []
     self.completed_event_list = []
-    self.active_events = set()
+    self.active_events = []
     self.event_descriptions_file = descriptions
     self.main_menu_message = "Welcome to your tabletop game.\nPlease choose an option below."
     self.num_dice_rolls = 0
@@ -77,7 +80,7 @@ class TableTopGame:
           if self.RollDie() > (25 * self.difficulty):
             self.CompleteEvent(event)
             clear()
-            print(f'You have successfully completed this scenarios initial incident ({self.initial_event})')
+            print(f'You have successfully completed this scenarios initial incident ({self.initial_event.name})')
             if self.active_events:
               print('All that remains now is to complete any remaining incidents.')
             wait()
@@ -99,9 +102,14 @@ class TableTopGame:
             print(f'Your most recent solution for the incident {event.name} has failed to resolve the issue.')
             print('You should begin considering fall-back solutions for this incident.')
             wait()
-        if self.active_events and self.RollDie() > 90:
-          if len(self.active_events) < 4:
-            new_event = None #FIXME
+        if self.active_events and self.RollDie() > 70:
+          if len(self.active_events) + len(self.completed_event_list) < 4:
+            new_event = self.additional_event_list[randint(0, len(self.additional_event_list))]
+            self.UpdateEvent(new_event)
+            clear()
+            print('A new incident has occured and will be ongoing until the issue is resolved.')
+            print(f'You will see a description of this new incident ({event.name}) on the next screen\n\n')
+            wait()
 
   #Return a random integer between two given values
   def RollDie(self):
@@ -141,7 +149,7 @@ class TableTopGame:
         self.additional_event_list.remove(event)
       else:
         raise Exception(f'Event ({event.name}) did not have a use set to \'initial\' or \'additional\'')
-      self.active_events.add(event)
+      self.active_events.append(event)
     elif event.status == Status.completed:
       self.active_events.remove(event)
 
@@ -174,7 +182,7 @@ class TableTopGame:
   def CompleteEvent(self, event):
     if not event in self.active_events:
       raise Exception(f'Event ({event.name}) not found in active events\n{self.active_events}')
-    self.UpdateEvent()
+    self.UpdateEvent(event)
     self.completed_event_list.append(event)
 
   #TODO Finish filling out TableTopGame class
@@ -193,7 +201,7 @@ class Event:
     
   def UpdateStatus(self):
     if self.status == Status.completed:
-      return
+      raise Exception(f'Event ({self.name}) already completed')
     elif self.status == Status.inactive:
       self.status = Status.active
     elif self.status == Status.active:
