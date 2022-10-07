@@ -25,6 +25,7 @@ class TableTopGame:
     self.initial_event_list = []
     self.initial_event = None
     self.additional_event_list = []
+    self.completed_event_list = []
     self.active_events = set()
     self.event_descriptions_file = descriptions
     self.main_menu_message = "Welcome to your tabletop game.\nPlease choose an option below."
@@ -36,9 +37,14 @@ class TableTopGame:
     if not self.is_running:
       self.Run()
     else:
-      self.active_events.clear()
-      for event in self.additional_events:
-        event.status = Status.inactive
+      # self.active_events.clear() May not be necessary
+      for event in self.completed_event_list():
+        if event.use == 'initial':
+          self.initial_event_list.append(event)
+          event.status = Status.inactive
+        elif event.use == 'additional':
+          self.additional_event_list.append(event)
+          event.status = Status.inactive
       self.initial_event.status = Status.inactive
       self.initial_event = None
       self.num_dice_rolls = 0
@@ -89,14 +95,18 @@ class TableTopGame:
             wait()
             clear()
           else:
-            pass #FIXME Detemine how to handle a failure
+            clear()
+            print(f'Your most recent solution for the incident {event.name} has failed to resolve the issue.')
+            print('You should begin considering fall-back solutions for this incident.')
+            wait()
         if self.active_events and self.RollDie() > 90:
-          pass #FIXME add a new event
-
+          if len(self.active_events) < 4:
+            new_event = None #FIXME
 
   #Return a random integer between two given values
-  def RollDie():
+  def RollDie(self):
     result = randint(1, 100)
+    self.num_dice_rolls += 1
     return result
   
   def SetDescriptionLocation(self):
@@ -125,6 +135,12 @@ class TableTopGame:
   def UpdateEvent(self, event):
     event.UpdateStatus()
     if event.status == Status.active:
+      if event.use == 'initial':
+        self.initial_event_list.remove(event)
+      elif event.use == 'additional':
+        self.additional_event_list.remove(event)
+      else:
+        raise Exception(f'Event ({event.name}) did not have a use set to \'initial\' or \'additional\'')
       self.active_events.add(event)
     elif event.status == Status.completed:
       self.active_events.remove(event)
@@ -141,7 +157,7 @@ class TableTopGame:
         description = line[13:]
       elif line[0:13] == "Best Practice":
         best_practice = line[15:].replace('\n', '')
-        event = Event(name, description, best_practice)
+        event = Event(name, description, best_practice, use)
         if use == "initial":
           self.initial_event_list.append(event)
         elif use == "additional":
@@ -158,8 +174,8 @@ class TableTopGame:
   def CompleteEvent(self, event):
     if not event in self.active_events:
       raise Exception(f'Event ({event.name}) not found in active events\n{self.active_events}')
-    event.UpdateStatus
-    self.active_events.remove(event)
+    self.UpdateEvent()
+    self.completed_event_list.append(event)
 
   #TODO Finish filling out TableTopGame class
 
@@ -168,11 +184,12 @@ class TableTopGame:
 # It should also have a markers for inactive -> active -> deactivated
 #FIXME
 class Event:
-  def __init__(self, name, description, best_practice):
+  def __init__(self, name, description, best_practice, use):
     self.name = name
     self.description = description
     self.status = Status.inactive
     self.best_practice = best_practice
+    self.use = use
     
   def UpdateStatus(self):
     if self.status == Status.completed:
