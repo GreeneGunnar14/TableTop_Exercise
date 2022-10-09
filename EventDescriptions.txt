@@ -1,17 +1,23 @@
-Name: Test Name 1
+Name: Ransomware Attack
 INITIAL
-Description: This event is a placeholder to be used for testing and can be deleted later.
-Best Practice: There is no current best practice. You may ignore this event.
+Description: The hospital you work at has been hit by a ransomware attack. All of your patients personal information has been compromised. None of the employees at the hospital can access the system. How do you respond to this incident?
+Best Practice: 
+Implement education and awareness in the workplace. 
+Engage in frequent backups. 
+Use MFA
 
 Name: Test Name 2
 INITIAL
 Description: This event is a second placeholder to be used for testing and can be deleted later.
 Best Practice: There is no current best practice for event 2. You may ignore this event.
 
-Name: Additional Event 1
+Name: Brute Force Password Attack
 ADDITIONAL
-Description: This event is a placeholder to be used for testing and can be deleted later.
-Best Practice: There is no current best practice for adev1. You may ignore this event.
+Description: One of the hospital administrator accounts has been hacked by a brute force attack. How does the IT team respond?
+Best Practice: 
+Implement IT hygiene
+Set up policies that reject weak passwords
+Implement proactive threat hunting
 
 Name: Additional Event 2
 ADDITIONAL
