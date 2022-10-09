@@ -2,9 +2,9 @@
 ---
 
 * Public hospital
-  * Size?
-  * Num of patients?
-  * Num of employees?
+  * Size: 2 Stories
+  * Num of patients: 100
+  * Num of employees: 20
   * On site database
     * Security logs?
     * Patient records?
