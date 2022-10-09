@@ -9,17 +9,19 @@
     * Security logs?
     * Patient records?
   * Wireless access points
-    * How many?
+    * How many: 2
   * Desktop computers
     * Connected through ethernet
-    * How many?
-    * Locations?
-    * Uses?
+    * How many: 16
+    * Locations: 8 on each floor, 4 in offices & 4 at lobby front desk
+    * Uses: 
+    * Front Desk Computers: Used to keep track of where patients are located, storing patient information, medications, etc. 
+    * Office Computers: Used by doctors, stores patient information, updates when patients need checkups, etc. 
   (Add anything else you think we should consider)
 
 ## Possible initial events/incidents description
 
-  * Unauthorized acccess detected?
+  * Unauthorized acccess detected: Brutce Force Attack to administrator account
   * Certain records in the database are rendered unsuable/unaccessable?
   (Add your suggestions)
 
