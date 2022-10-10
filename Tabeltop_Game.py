@@ -93,9 +93,10 @@ class TableTopGame:
         print('Discuss and determine the best solution to the above situations.\nIf you have already discussed a solution to a problem, determine the best next step when your best practice fails.')
         wait()
         clear()
-        print('Best Prcatices: \n')
+        print('Best Practices: \n')
         for event in events:
           event.DisplayBestPractices()
+          print()
         wait()
         for event in events:
           if event == self.initial_event:
@@ -158,7 +159,7 @@ class TableTopGame:
             roll_result = 100 if response.lower() == 'y' else 0
           else:
             roll_result = self.RollDie()
-          if self.active_events and roll_result > (70 + (5 * self.multiplier)):
+          if self.active_events and roll_result > (70 - (5 * self.multiplier)):
             if len(self.active_events) + len(self.completed_event_list) < 4:
               new_event = self.additional_event_list[randint(0, len(self.additional_event_list))]
               self.UpdateEvent(new_event)
@@ -166,6 +167,7 @@ class TableTopGame:
               print('A new incident has occured and will be ongoing until the issue is resolved.')
               print(f'You will see a description of this new incident ({new_event.name}) on the next screen\n\n')
               wait()
+              break
 
   #Return a random integer between two given values
   def RollDie(self):
@@ -260,12 +262,9 @@ class TableTopGame:
     self.UpdateEvent(event)
     self.completed_event_list.append(event)
 
-  #TODO Finish filling out TableTopGame class
-
 
 # Scenario class, this class should have a name and a description of the scenario and its best practice solution.
 # It should also have a markers for inactive -> active -> deactivated
-#FIXME
 class Event:
   def __init__(self, name, description, best_practices, use):
     self.name = name
@@ -290,9 +289,7 @@ class Event:
     else:
       raise Exception(f"Event status for {self.name} not properly set.")
 
-#TODO
 def PlayGame(event_locations="EventDescriptions.txt", difficulty=Difficulty.easy):
-  #TODO determine different weights for dice rolls based on difficulty
   game = TableTopGame(event_locations, difficulty)
   game.GetDescriptions()
   game.Start()
