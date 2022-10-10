@@ -52,3 +52,11 @@ Cancel requests for help from a company if you have not requested assistance.
 Find out who has access to your data at work and ensure that it is secure.
 Do not open emails from an unknown source.
 Secure your computer by installing anti-virus software, email spam filters, firewalls, and always keep them updated.
+
+Name: Break-In
+ADDITIONAL
+Description: An intruder was able to go into an unattended hospital room and get on the computer assigned to the room. The computer in question was not locked by the previous employee that used it and the data on that computer is now compromised. Now the intruder has access to sensitive data including hospital data, personal data of patients, etc.
+Best Practice:
+Secure and lock computers when not in use.
+Lock hospital room doors if they are not in use.
+Be on the lookout for suspicious activity
