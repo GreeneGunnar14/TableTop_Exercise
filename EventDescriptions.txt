@@ -29,10 +29,16 @@ ADDITIONAL
 Description: One of the hospital administrator accounts has been hacked by a brute force attack. How does the IT team respond?
 Best Practice: Implement IT hygiene, Set up policies that reject weak passwords, Implement proactive threat hunting
 
-Name: Additional Event 2
+Name: Phishing Attack
 ADDITIONAL
-Description: This event is a placeholder to be used for testing and can be deleted later.
-Best Practice: There is no current best practice for adev2. You may ignore this event.
+Description: One of the doctors at the hospital just got an email informing them of a $400 purchase made on their credit card and they need to click on a link to confirm the purchase. The doctor checked his bank account and didn't see any activity so he clicked on the link in the email and was told that if he wishes to cancel this purchase he needs to insert his credit card information so they can verify the card. The doctor informs you of the email and asks for your advice. How do you respond?
+Best Practice: 
+Pick Strong Passwords
+Use Two-Factor Authentication
+Never Open Unexpected Attachments
+Never Use Company Email for Personal Reasons
+Avoid Public Wifi (or Use a VPN)
+Be Careful What You Click
 
 Name: Additional Event 3
 ADDITIONAL
