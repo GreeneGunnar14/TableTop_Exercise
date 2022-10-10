@@ -1,3 +1,4 @@
 from Tabeltop_Game import PlayGame
 
-PlayGame('EventDescriptions.txt')
+if __name__ == '__main__':
+  PlayGame(event_locations='EventDescriptions.txt')
