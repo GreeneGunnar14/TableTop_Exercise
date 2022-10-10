@@ -1,10 +1,7 @@
 Name: Ransomware Attack
 INITIAL
-Description: The hospital you work at has been hit by a ransomware attack. All of your patients personal information has been compromised. None of the employees at the hospital can access the system. How do you respond to this incident?
-Best Practice: 
-Implement education and awareness in the workplace. 
-Engage in frequent backups. 
-Use MFA
+Description: The hospital you work at has been hit by a ransomware attack. All of your patients' personal information has been compromised. None of the employees at the hospital can access the system. How do you respond to this incident?
+Best Practice: Implement education and awareness in the workplace. Engage in frequent backups. Use MFA
 
 Name: Test Name 2
 INITIAL
@@ -14,10 +11,7 @@ Best Practice: There is no current best practice for event 2. You may ignore thi
 Name: Brute Force Password Attack
 ADDITIONAL
 Description: One of the hospital administrator accounts has been hacked by a brute force attack. How does the IT team respond?
-Best Practice: 
-Implement IT hygiene
-Set up policies that reject weak passwords
-Implement proactive threat hunting
+Best Practice: Implement IT hygiene, Set up policies that reject weak passwords, Implement proactive threat hunting
 
 Name: Additional Event 2
 ADDITIONAL
