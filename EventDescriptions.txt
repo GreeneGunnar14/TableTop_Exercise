@@ -15,7 +15,7 @@ Put in an edge-network firewall and rate-limit the ingress path.
 
 Name: SQL Injection 
 INITIAL
-Description: You ahev received an alert that the database with all of the patient information has been accessed by someone who doesn't have administraive access to it. You check on the database and realize that the database has been hit with an SQL injection. All of the confidential information of the patients is now vulnerable. The hacker hasn't done anything with the data yet but now has access and you want to mitigate this incident as soon as possible. How do you respond?
+Description: You have received an alert that the database with all of the patient information has been accessed by someone who doesn't have administraive access to it. You check on the database and realize that the database has been hit with an SQL injection. All of the confidential information of the patients is now vulnerable. The hacker hasn't done anything with the data yet but now has access and you want to mitigate this incident as soon as possible. How do you respond?
 Best Practice: 
 Verify user inputs
 Limit the use of special characters in data
