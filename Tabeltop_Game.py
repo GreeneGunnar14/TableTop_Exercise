@@ -11,6 +11,12 @@ class Status(Enum):
   active = 1
   completed = 2
 
+class Difficulty(Enum):
+  debug = 0
+  easy = 1
+  moderate = 2
+  hard = 3
+
 def wait():
   print()
   _ = input('Press [ENTER] to continue . . . ')
@@ -23,7 +29,7 @@ def clear():
 # TableTopGame class, this class should have start, and end methods, a list containing all currently active scenarios, a roll_dice method, 
 # and a count of the total number of dice rolls
 class TableTopGame:
-  def __init__(self, descriptions = "EventDescriptions.txt", difficulty=1):
+  def __init__(self, descriptions = "EventDescriptions.txt", difficulty=Difficulty.easy):
     self.is_running = False
     self.initial_event_list = []
     self.initial_event = None
@@ -60,7 +66,8 @@ class TableTopGame:
     while not selection in ('1', '2','3'):
       clear()
       selection = input(f'Selection {selection} not recognized. Please try again (1, 2, 3): ')
-    self.difficulty = int(selection)
+    diff = Difficulty.easy if selection == '1' else Difficulty.moderate if selection == '2' else Difficulty.hard if selection == '3' else None
+    self.difficulty = diff
 
   def End(self):
     clear()
@@ -88,7 +95,8 @@ class TableTopGame:
         wait()
         for event in events:
           if event == self.initial_event:
-            if self.RollDie() > (25 * self.difficulty):
+            #FIXME Add a check for debug difficulty
+            if self.RollDie() > (25 * self.difficulty.value):
               self.CompleteEvent(event)
               clear()
               print(f'You have successfully completed this scenario\'s initial incident ({self.initial_event.name})')
@@ -266,4 +274,4 @@ def PlayGame(event_locations="EventDescriptions.txt", difficulty=1):
     game.End()
 
 if __name__ == '__main__':
-  PlayGame(difficulty=1)
+  PlayGame()
