@@ -10,7 +10,7 @@ class Status(Enum):
   inactive = 0
   active = 1
   completed = 2
-  
+
 def wait():
   print()
   _ = input('Press [ENTER] to continue . . . ')
@@ -20,7 +20,7 @@ def clear():
   system('clear')
   return
 
-#  TableTopGame class, this class should have start, and end methods, a list containing all currently active scenarios, a roll_dice method, 
+# TableTopGame class, this class should have start, and end methods, a list containing all currently active scenarios, a roll_dice method, 
 # and a count of the total number of dice rolls
 class TableTopGame:
   def __init__(self, descriptions = "EventDescriptions.txt", difficulty=1):
@@ -38,10 +38,11 @@ class TableTopGame:
   #FIXME
   def Start(self):
     if not self.is_running:
+      self.is_running = True
       self.Run()
     else:
       # self.active_events.clear() May not be necessary
-      for event in self.completed_event_list():
+      for event in self.completed_event_list:
         if event.use == 'initial':
           self.initial_event_list.append(event)
           event.status = Status.inactive
@@ -54,6 +55,7 @@ class TableTopGame:
       self.Run()
   
   def End(self):
+    clear()
     exit(0)
   
   #TODO finish displaying the full menu.
@@ -217,10 +219,16 @@ def PlayGame(event_locations="EventDescriptions.txt", difficulty=1):
   game.Start()
   clear()
   user_response = input('Would you like to play again? (y/n): ').lower()
+  while not user_response.lower() in ('y', 'n'):
+    clear()
+    print(f"Your input ({user_response}) was not recognized.")
+    user_response = input(f'Please enter \'y\' or \'n\': ')
   while user_response == 'y':
     game.Start()
     clear()
     user_response = input('Would you like to play again? (y/n): ').lower()
+  else:
+    game.End()
 
 if __name__ == '__main__':
-  PlayGame()
+  PlayGame(difficulty=2)
