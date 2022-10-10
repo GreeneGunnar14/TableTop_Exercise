@@ -3,10 +3,26 @@ INITIAL
 Description: The hospital you work at has been hit by a ransomware attack. All of your patients' personal information has been compromised. None of the employees at the hospital can access the system. How do you respond to this incident?
 Best Practice: Implement education and awareness in the workplace. Engage in frequent backups. Use MFA
 
-Name: Test Name 2
+Name: DDoS Attack
 INITIAL
-Description: This event is a second placeholder to be used for testing and can be deleted later.
-Best Practice: There is no current best practice for event 2. You may ignore this event.
+Description: Several of the nurses have reported that their computers have been acting strange and are running really slow. You have confirmed that the hospital has been hit by a DDos attack. All of the computers on the first floor have been affected. How do you mitigate this attack?
+Best Practices: 
+Configure a server-side firewall rate limit (IPTABLES or MS-Windows firewall). 
+Limit request rates and number in the web-server configuration.
+Add new servers to the farm to distribute the load. 
+Change the DNS record(s) for the domain(s). 
+Put in an edge-network firewall and rate-limit the ingress path. 
+
+Name: SQL Injection 
+INITIAL
+Description: You ahev received an alert that the database with all of the patient information has been accessed by someone who doesn't have administraive access to it. You check on the database and realize that the database has been hit with an SQL injection. All of the confidential information of the patients is now vulnerable. The hacker hasn't done anything with the data yet but now has access and you want to mitigate this incident as soon as possible. How do you respond?
+Best Practice: 
+Verify user inputs
+Limit the use of special characters in data
+Enforce prepared statements and parameterizations
+Make use of stored procedures in the database
+Actively manage patches and updates
+Implement a web application firewall
 
 Name: Brute Force Password Attack
 ADDITIONAL
