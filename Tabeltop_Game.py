@@ -2,7 +2,6 @@
 #FIXME Game does not add events back into their respective list after a round has been played
 # This means that the successive rounds will eventually crash the game.
 
-from distutils.log import debug
 from enum import Enum
 from random import randint
 from os import system
@@ -148,26 +147,25 @@ class TableTopGame:
               print(f'Your most recent solution for the incident {event.name} has failed to resolve the issue.')
               print('You should begin considering fall-back solutions for this incident.')
               wait()
-          if self.difficulty == Difficulty.debug:
+        if self.difficulty == Difficulty.debug:
+          clear()
+          print('DEBUGGING')
+          response = input(f'\nYou are in debug mode. \nChoose whether you would like to ensure a new event is added y/n: ')
+          while not response.lower() in ('y', 'n'):
             clear()
             print('DEBUGGING')
-            response = input(f'\nYou are in debug mode. \nChoose whether you would like to ensure a new event is added y/n: ')
-            while not response.lower() in ('y', 'n'):
-              clear()
-              print('DEBUGGING')
-              response = input(f'\nYou are in debug mode.\nResponse ({response}) not recognized. Please enter \'y\' or \'n\': ')
-            roll_result = 100 if response.lower() == 'y' else 0
-          else:
-            roll_result = self.RollDie()
-          if self.active_events and roll_result > (70 - (5 * self.multiplier)):
-            if len(self.active_events) + len(self.completed_event_list) < 4:
-              new_event = self.additional_event_list[randint(0, len(self.additional_event_list))]
-              self.UpdateEvent(new_event)
-              clear()
-              print('A new incident has occured and will be ongoing until the issue is resolved.')
-              print(f'You will see a description of this new incident ({new_event.name}) on the next screen\n\n')
-              wait()
-              break
+            response = input(f'\nYou are in debug mode.\nResponse ({response}) not recognized. Please enter \'y\' or \'n\': ')
+          roll_result = 100 if response.lower() == 'y' else 0
+        else:
+          roll_result = self.RollDie()
+        if self.active_events and roll_result > (70 - (5 * self.multiplier)):
+          if len(self.active_events) + len(self.completed_event_list) < 4:
+            new_event = self.additional_event_list[randint(0, len(self.additional_event_list) - 1)]
+            self.UpdateEvent(new_event)
+            clear()
+            print('A new incident has occured and will be ongoing until the issue is resolved.')
+            print(f'You will see a description of this new incident ({new_event.name}) on the next screen\n\n')
+            wait()
 
   #Return a random integer between two given values
   def RollDie(self):
