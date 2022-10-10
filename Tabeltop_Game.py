@@ -2,6 +2,7 @@
 #FIXME Game does not add events back into their respective list after a round has been played
 # This means that the successive rounds will eventually crash the game.
 
+from distutils.log import debug
 from enum import Enum
 from random import randint
 from os import system
@@ -40,6 +41,7 @@ class TableTopGame:
     self.main_menu_message = "Welcome to your tabletop game.\nPlease choose an option below."
     self.num_dice_rolls = 0
     self.difficulty = difficulty
+    self.multiplier = self.difficulty.value if (self.difficulty != Difficulty.debug) else 1
   
   #FIXME
   def Start(self):
@@ -79,6 +81,8 @@ class TableTopGame:
     message = self.main_menu_message
     if start_menu:
       clear()
+      if self.difficulty == Difficulty.debug:
+        print('DEBUGGING ACTIVE')
       print(message + '\n\n')
       print(f'1. Start game with random initial event.\n2. Choose initial event and start game.\n3. Select difficulty\n4. Exit\n\n')
     else:
@@ -95,8 +99,18 @@ class TableTopGame:
         wait()
         for event in events:
           if event == self.initial_event:
-            #FIXME Add a check for debug difficulty
-            if self.RollDie() > (25 * self.difficulty.value):
+            if self.difficulty == Difficulty.debug:
+              clear()
+              print('DEBUGGING')
+              response = input(f'\nYou are in debug mode. \nChoose whether you would like to pass or fail the event {event.name} p/f: ')
+              while not response.lower() in ('p', 'f'):
+                clear()
+                print('DEBUGGING')
+                response = input(f'\nYou are in debug mode.\nResponse ({response}) not recognized. Please enter \'p\' or \'f\': ')
+              roll_result = 100 if response.lower() == 'p' else 0
+            else:
+              roll_result = self.RollDie()
+            if roll_result > (25 * self.multiplier):
               self.CompleteEvent(event)
               clear()
               print(f'You have successfully completed this scenario\'s initial incident ({self.initial_event.name})')
@@ -111,7 +125,18 @@ class TableTopGame:
               print('You should begin considering fall-back solutions for this incident.')
               wait()
           else:
-            if self.RollDie() > 10 * self.difficulty:
+            if self.difficulty == Difficulty.debug:
+              clear()
+              print('DEBUGGING')
+              response = input(f'\nYou are in debug mode. \nChoose whether you would like to pass or fail the event {event.name} p/f: ')
+              while not response.lower() in ('p', 'f'):
+                clear()
+                print('DEBUGGING')
+                response = input(f'\nYou are in debug mode.\nResponse ({response}) not recognized. Please enter \'p\' or \'f\': ')
+              roll_result = 100 if response.lower() == 'p' else 0
+            else:
+              roll_result = self.RollDie()
+            if roll_result > 10 * self.multiplier:
               self.CompleteEvent(event)
               clear()
               print(f'Your solution successfully completed the event {event.name}.\nYou will no longer have to deal with this problem')
@@ -122,13 +147,24 @@ class TableTopGame:
               print(f'Your most recent solution for the incident {event.name} has failed to resolve the issue.')
               print('You should begin considering fall-back solutions for this incident.')
               wait()
-          if self.active_events and self.RollDie() > 70:
+          if self.difficulty == Difficulty.debug:
+            clear()
+            print('DEBUGGING')
+            response = input(f'\nYou are in debug mode. \nChoose whether you would like to ensure a new event is added y/n: ')
+            while not response.lower() in ('y', 'n'):
+              clear()
+              print('DEBUGGING')
+              response = input(f'\nYou are in debug mode.\nResponse ({response}) not recognized. Please enter \'y\' or \'n\': ')
+            roll_result = 100 if response.lower() == 'y' else 0
+          else:
+            roll_result = self.RollDie()
+          if self.active_events and roll_result > (70 + (5 * self.multiplier)):
             if len(self.active_events) + len(self.completed_event_list) < 4:
               new_event = self.additional_event_list[randint(0, len(self.additional_event_list))]
               self.UpdateEvent(new_event)
               clear()
               print('A new incident has occured and will be ongoing until the issue is resolved.')
-              print(f'You will see a description of this new incident ({event.name}) on the next screen\n\n')
+              print(f'You will see a description of this new incident ({new_event.name}) on the next screen\n\n')
               wait()
 
   #Return a random integer between two given values
@@ -255,7 +291,7 @@ class Event:
       raise Exception(f"Event status for {self.name} not properly set.")
 
 #TODO
-def PlayGame(event_locations="EventDescriptions.txt", difficulty=1):
+def PlayGame(event_locations="EventDescriptions.txt", difficulty=Difficulty.easy):
   #TODO determine different weights for dice rolls based on difficulty
   game = TableTopGame(event_locations, difficulty)
   game.GetDescriptions()
@@ -264,6 +300,7 @@ def PlayGame(event_locations="EventDescriptions.txt", difficulty=1):
   user_response = input('Would you like to play again? (y/n): ').lower()
   while not user_response.lower() in ('y', 'n'):
     clear()
+    user_response = 'VOID' if user_response == '' else user_response
     print(f"Your input ({user_response}) was not recognized.")
     user_response = input(f'Please enter \'y\' or \'n\': ')
   while user_response == 'y':
@@ -274,4 +311,4 @@ def PlayGame(event_locations="EventDescriptions.txt", difficulty=1):
     game.End()
 
 if __name__ == '__main__':
-  PlayGame()
+  PlayGame(difficulty=Difficulty.debug)
