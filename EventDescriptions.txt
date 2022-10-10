@@ -40,7 +40,15 @@ Never Use Company Email for Personal Reasons
 Avoid Public Wifi (or Use a VPN)
 Be Careful What You Click
 
-Name: Additional Event 3
+Name: Social Engineering Incident
 ADDITIONAL
-Description: This event is a placeholder to be used for testing and can be deleted later.
-Best Practice: There is no current best practice for adev3. You may ignore this event.
+Description: One of the nurses received an email from a local pharmacy with a link. The email tells the nurse to click on the link and enter her hospital ID and password so they pharmacy can give her access to the different medications for some of the patients at the hospital. Very convinced, the nurse clicks on the link and enter her information... Now the hacker that posed as as local pharmacy has her hospital password and ID. The nurse immediately reports the incident to you and asks what she should do. What do you tell her?
+Best Practice: 
+Avoid sharing personal information on social media. If you have already shared out this information, request to have it pulled down.
+Use authorized and trusted channels to verify your email address and phone number in case you receive a suspicious message.
+Do not click on links sent via emails, instead use trustworthy websites.
+Do not disclose your personal information and passwords to anyone if you are uncertain.
+Cancel requests for help from a company if you have not requested assistance.
+Find out who has access to your data at work and ensure that it is secure.
+Do not open emails from an unknown source.
+Secure your computer by installing anti-virus software, email spam filters, firewalls, and always keep them updated.
